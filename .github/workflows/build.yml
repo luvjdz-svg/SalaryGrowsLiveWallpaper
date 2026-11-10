@@ -28,9 +28,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          PROJECT_FILE="$(find . -name settings.gradle -type f -print -quit)"
-          if [ -z "$PROJECT_FILE" ]; then echo 'settings.gradle not found'; exit 1; fi
-          cd "$(dirname "$PROJECT_FILE")"
+          cd MMF_v2_Source/MMF_v2
           gradle --no-daemon assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
