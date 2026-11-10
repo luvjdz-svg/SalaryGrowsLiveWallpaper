@@ -1,0 +1,13 @@
+월급이 자란다 LIVE - APK 자동 빌드
+
+이 파일은 설치용 APK가 아닌 Android 프로젝트입니다.
+로컬 빌드가 어려운 경우 GitHub Actions를 통해 빌드할 수 있습니다.
+
+1. GitHub에 새 저장소를 만들고 ZIP 내부의 프로젝트 파일을 저장소 루트에 업로드합니다.
+2. 저장소의 Actions 탭에서 'Build SalaryGrows Live APK'를 선택합니다.
+3. Run workflow를 눌러 빌드를 실행합니다.
+4. 성공 후 실행 화면 아래 Artifacts에서 SalaryGrowsLive-APK를 받습니다.
+5. 압축을 풀어 app-debug.apk를 폰에 설치합니다.
+
+주의: APK 설치/실제 갤럭시 폴드8 테스트는 아직 수행하지 않았습니다.
+화면이 표시될 때만 1초 단위로 화면을 다시 그리며, 잠금화면 지원은 기기 정책에 따라 다릅니다.
