@@ -1,4 +1,3 @@
-
 name: Build APK
 
 on:
@@ -8,28 +7,34 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Set up Java
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Build APK
+      - name: Set up Gradle 8.9
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Install required Android SDK packages
         run: |
-          cd SalaryGrowsLiveWallpaper_BuildReady/SalaryGrowsLiveWallpaper
-          chmod +x gradlew
-          ./gradlew assembleDebug
-
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Find project and build APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROJECT_FILE="$(find . -name settings.gradle -type f -print -quit)"
+          if [ -z "$PROJECT_FILE" ]; then echo 'settings.gradle not found'; exit 1; fi
+          cd "$(dirname "$PROJECT_FILE")"
+          gradle --no-daemon assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: SalaryGrows-LIVE-APK
           path: '**/build/outputs/apk/debug/*.apk'
+          if-no-files-found: error
